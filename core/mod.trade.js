@@ -792,7 +792,7 @@ module.exports = class frostybot_trade_module extends frostybot_module {
 
         // Extract params
         params = this.mod.utils.lower_props(params);
-        var [stub, symbol, side, price, post, ioc, reduce, tag] = this.mod.utils.extract_props(params, ['stub', 'symbol', 'side', 'price', 'post', 'ioc', 'reduce', 'tag']);
+        var [stub, symbol, side, price, stopprice, post, ioc, reduce, tag] = this.mod.utils.extract_props(params, ['stub', 'symbol', 'side', 'price', 'stopprice', 'post', 'ioc', 'reduce', 'tag']);
         
         // Get parameters from the normalizer
         var param_map = await this.setting(stub, 'param_map');
@@ -824,10 +824,11 @@ module.exports = class frostybot_trade_module extends frostybot_module {
         var param_map = await this.setting(stub, 'param_map');
         var order_params = {
             symbol  :   symbol.toUpperCase(),
-            type    :   param_map[(price == undefined ? 'market' : 'limit')],
+            type    :   param_map[((price != undefined && stopprice != undefined) ? 'stop' : (price == undefined ? 'stop_market' : (stopprice == undefined ? 'limit' : 'market')))],
             side    :   side,
             amount  :   amount,
             price   :   (price != undefined ? price : null),
+            stopPrice : (stopprice != undefined ? stopprice : null)
             params  :   {}
         }
 
