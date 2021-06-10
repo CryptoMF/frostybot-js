@@ -21,6 +21,8 @@ module.exports = class frostybot_exchange_binance_futures extends frostybot_exch
         this.param_map = {                           // Order parameter mappings
             limit              : 'LIMIT',
             market             : 'MARKET',
+            stop               : 'STOP',
+            stop_market        : 'STOP_MARKET',
             stoploss_limit     : 'STOP',
             stoploss_market    : 'STOP_MARKET',
             takeprofit_limit   : 'TAKE_PROFIT', 
