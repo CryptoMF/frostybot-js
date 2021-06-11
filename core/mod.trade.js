@@ -828,7 +828,7 @@ module.exports = class frostybot_trade_module extends frostybot_module {
             side    :   side,
             amount  :   amount,
             price   :   (price != undefined ? price : null),
-            stopPrice : (stopprice != undefined ? stopprice : null)
+            stopPrice : (stopprice != undefined ? stopprice : null),
             params  :   {}
         }
 
