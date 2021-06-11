@@ -828,7 +828,6 @@ module.exports = class frostybot_trade_module extends frostybot_module {
             side    :   side,
             amount  :   amount,
             price   :   (price != undefined ? price : null),
-            stopPrice : (stopprice != undefined ? stopprice : null),
             params  :   {}
         }
 
@@ -836,6 +835,7 @@ module.exports = class frostybot_trade_module extends frostybot_module {
         order_params.params[param_map.post]   = (String(post)   == "true" ? true : undefined);
         order_params.params[param_map.ioc]    = (String(ioc)    == "true" ? true : undefined);
         order_params.params[param_map.tag]    = tag;
+        order_params.params[param_map.trigger] = (stopprice != undefined ? stopprice : null); // Add stopPrice extra param for stop limit/market orders
 
         if (type == 'close') {
             order_params.params[param_map.reduce] = (String(reduce) == "true" ? true : undefined);
