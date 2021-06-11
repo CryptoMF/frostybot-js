@@ -14,7 +14,7 @@ sudo -E apt-get -qy -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--f
 
 echo "Cloning Frostybot Github repository..."
 sudo mkdir -p /usr/local && cd /usr/local/
-sudo git clone https://github.com/CryptoMF/frostybot-js.git frostybot-js >> /tmp/install.log 2>&1
+sudo git clone https://github.com/Ichibot200/frostybot-js.git frostybot-js >> /tmp/install.log 2>&1
 
 echo "Setting permissions..."
 cd /usr/local/frostybot-js

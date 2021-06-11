@@ -792,7 +792,7 @@ module.exports = class frostybot_trade_module extends frostybot_module {
 
         // Extract params
         params = this.mod.utils.lower_props(params);
-        var [stub, symbol, side, price, post, ioc, reduce, tag] = this.mod.utils.extract_props(params, ['stub', 'symbol', 'side', 'price', 'post', 'ioc', 'reduce', 'tag']);
+        var [stub, symbol, side, price, stopprice, post, ioc, reduce, tag] = this.mod.utils.extract_props(params, ['stub', 'symbol', 'side', 'price', 'stopprice', 'post', 'ioc', 'reduce', 'tag']);
         
         // Get parameters from the normalizer
         var param_map = await this.setting(stub, 'param_map');
@@ -822,9 +822,10 @@ module.exports = class frostybot_trade_module extends frostybot_module {
 
         // Get parameters from the normalizer
         var param_map = await this.setting(stub, 'param_map');
+        
         var order_params = {
             symbol  :   symbol.toUpperCase(),
-            type    :   param_map[(price == undefined ? 'market' : 'limit')],
+            type    :   param_map[((price != undefined && stopprice != undefined) ? 'stop' : (price == undefined ? 'stop_market' : (stopprice == undefined ? 'limit' : 'market')))],
             side    :   side,
             amount  :   amount,
             price   :   (price != undefined ? price : null),
@@ -835,8 +836,10 @@ module.exports = class frostybot_trade_module extends frostybot_module {
         order_params.params[param_map.post]   = (String(post)   == "true" ? true : undefined);
         order_params.params[param_map.ioc]    = (String(ioc)    == "true" ? true : undefined);
         order_params.params[param_map.tag]    = tag;
+        order_params.params[param_map.trigger] = (stopprice != undefined ? stopprice : undefined); // Add stopPrice extra param for stop limit/market orders
 
         if (type == 'close') {
+            order_params.type = param_map[(price == undefined ? 'market' : 'limit')]
             order_params.params[param_map.reduce] = (String(reduce) == "true" ? true : undefined);
         }
 
